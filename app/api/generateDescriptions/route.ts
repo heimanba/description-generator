@@ -1,8 +1,13 @@
-import Together from "together-ai";
+// import Together from "together-ai";
+import OpenAI from 'openai';
 import { z } from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
 
-const together = new Together();
+// const together = new Together();
+const together = new OpenAI({
+	apiKey: process.env.DASHSCOPE_API_KEY,
+	baseURL: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+})
 
 export async function POST(req: Request) {
   const json = await req.json();
@@ -60,10 +65,12 @@ export async function POST(req: Request) {
         },
       ],
     });
+		
 
-    rawResponse = res.choices[0].message?.content;
-    descriptions = JSON.parse(rawResponse || "[]");
-    console.log({ rawResponse, descriptions });
+		rawResponse = res.choices[0].message?.content;
+		const cleanedString = rawResponse?.replace(/```json\n|\n```/g, '').trim();
+    descriptions = JSON.parse(cleanedString || "[]");
+    // console.log({ rawResponse, descriptions });
   } catch (error) {
     const productDescriptionSchema = z.array(
       z.object({
@@ -90,7 +97,7 @@ export async function POST(req: Request) {
           content: rawResponse || "",
         },
       ],
-      model: "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
+      model: "qwen-vl-max",
       // @ts-expect-error need to type the schema format
       response_format: { type: "json_object", schema: jsonSchema },
     });

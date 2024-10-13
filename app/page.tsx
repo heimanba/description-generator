@@ -12,6 +12,7 @@ import { useS3Upload } from "next-s3-upload";
 import { useState } from "react";
 
 const languages = [
+	{ code: "zh", name: "Chinese" },
   { code: "en", name: "English" },
   { code: "es", name: "Spanish" },
   { code: "fr", name: "French" },
@@ -19,25 +20,24 @@ const languages = [
   { code: "it", name: "Italian" },
   { code: "ja", name: "Japanese" },
   { code: "ko", name: "Korean" },
-  { code: "zh", name: "Chinese" },
   { code: "pt", name: "Portuguese" },
 ];
 
 const models = [
   {
-    value: "meta-llama/Llama-3.2-11B-Vision-Instruct-Turbo",
-    label: "Llama 3.2 11B",
+    value: "qwen-vl-max",
+    label: "qwen-vl-max",
   },
-  {
-    value: "meta-llama/Llama-3.2-90B-Vision-Instruct-Turbo",
-    label: "Llama 3.2 90B",
+	{
+    value: "qwen-vl-plus",
+    label: "qwen-vl-plus",
   },
 ];
 
 const lengths = [
-  { value: "short", label: "Short" },
+	{ value: "long", label: "Long" },
   { value: "medium", label: "Medium" },
-  { value: "long", label: "Long" },
+  { value: "short", label: "Short" },
 ];
 
 export default function Page() {
